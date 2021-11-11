@@ -37,11 +37,30 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'todo_app',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
     'login_app',
+    'todo_app',
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'todo_app.permissions.IsOwnerOrNoAccess',
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}
+
+IPFILTER_MIDDLEWARE = {
+    'ALLOWED_IP_ADDRESSES': [
+        '127.0.0.1',
+    ]
+}
 MIDDLEWARE = [
+    'ipfilter_middleware.middleware.IPFilterMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
